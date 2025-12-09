@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escalas de Evaluación Educativa - UNL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .portada {
+            padding: 60px 40px;
+            text-align: center;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: #4f46e5;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+        }
+        
+        .portada h1 {
+            font-size: 2.5em;
+            color: #1e1b4b;
+            margin-bottom: 20px;
+        }
+        
+        .portada h2 {
+            font-size: 1.8em;
+            color: #4b5563;
+            margin-bottom: 15px;
+        }
+        
+        .portada h3 {
+            font-size: 1.3em;
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+        
+        .info-box {
+            border-top: 3px solid #4f46e5;
+            border-bottom: 3px solid #4f46e5;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 600px;
+        }
+        
+        .info-box h4 {
+            font-size: 2em;
+            color: #4f46e5;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .info-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .btn-access {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s;
+        }
+        
+        .btn-access:hover {
+            background: #4338ca;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f3f4f6;
+            border-bottom: 2px solid #e5e7eb;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.3s;
+            min-width: 200px;
+        }
+        
+        .nav-tab:hover {
+            background: #e5e7eb;
+        }
+        
+        .nav-tab.active {
+            background: #4f46e5;
+            color: white;
+            border-bottom: 4px solid #4338ca;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .btn-back {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px;
+        }
+        
+        h2 {
+            color: #1e1b4b;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #4f46e5;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .criterio-box {
+            margin-bottom: 30px;
+            border-left: 4px solid #4f46e5;
+            padding-left: 20px;
+        }
+        
+        .criterio-box h3 {
+            color: #1e1b4b;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .intervalo {
+            display: flex;
+            gap: 15px;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        
+        .intervalo:hover {
+            background: #f0f9ff;
+        }
+        
+        .rango {
+            font-weight: bold;
+            color: #4f46e5;
+            min-width: 80px;
+        }
+        
+        .resultado {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            font-weight: 600;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .nav-tabs, .btn-back, .btn-access {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="portada" class="portada">
+            <div class="logo">UNL</div>
+            <h1>Universidad Nacional de Loja</h1>
+            <h2>Facultad de Educación, el Arte y la Comunicación</h2>
+            <h3>Carrera de Pedagogía de las Ciencias Experimentales (Informática)</h3>
+            
+            <div class="info-box">
+                <h4>ESCALAS DE EVALUACIÓN EDUCATIVA</h4>
+                <div class="info-item">
+                    <strong>Asignatura:</strong>
+                    Evaluación de los Aprendizajes
+                </div>
+                <div class="info-item">
+                    <strong>Estudiante:</strong>
+                    Ronald Jaramillo
+                </div>
+            </div>
+            
+            <button class="btn-access" onclick="mostrarEscalas()">Acceder a las Escalas</button>
+            <p style="margin-top: 40px; color: #9ca3af;">2025</p>
+        </div>
+
+        <div id="navegacion" class="hidden">
+            <button class="btn-back" onclick="volverPortada()">← Volver a Portada</button>
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="cambiarTab(0)">Escala de Intervalos</button>
+                <button class="nav-tab" onclick="cambiarTab(1)">Escala Numérica</button>
+                <button class="nav-tab" onclick="cambiarTab(2)">Escala Valorativa</button>
+                <button class="nav-tab" onclick="cambiarTab(3)">Escala de Likert</button>
+            </div>
+        </div>
+
+        <div id="escala0" class="content hidden">
+            <h2>ESCALA DE INTERVALOS PARA EVALUAR UN ENSAYO</h2>
+            <p class="subtitle">Puntuación total: 70 puntos</p>
+            
+            <div class="criterio-box">
+                <h3>Introducción y contextualización</h3>
+                <div class="intervalo">
+                    <span class="rango">9-10</span>
+                    <span>Introducción excelente, contextualiza plenamente el tema con claridad</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">7-8</span>
+                    <span>Buena introducción, contextualiza adecuadamente el tema</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">5-6</span>
+                    <span>Introducción básica, contextualización parcial del tema</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">3-4</span>
+                    <span>Introducción deficiente, poca contextualización</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">0-2</span>
+                    <span>No presenta introducción o es inadecuada</span>
+                </div>
+            </div>
+
+            <div class="criterio-box">
+                <h3>Desarrollo y argumentación</h3>
+                <div class="intervalo">
+                    <span class="rango">18-20</span>
+                    <span>Argumentación sólida, coherente y bien fundamentada con fuentes</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">14-17</span>
+                    <span>Buena argumentación con fundamentos apropiados</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">10-13</span>
+                    <span>Argumentación aceptable con fundamentos básicos</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">6-9</span>
+                    <span>Argumentación débil o poco fundamentada</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">0-5</span>
+                    <span>Sin argumentación o totalmente incoherente</span>
+                </div>
+            </div>
+
+            <div class="criterio-box">
+                <h3>Análisis crítico y reflexión</h3>
+                <div class="intervalo">
+                    <span class="rango">18-20</span>
+                    <span>Análisis profundo, crítico y reflexivo con postura bien definida</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">14-17</span>
+                    <span>Buen análisis con elementos críticos y reflexivos</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">10-13</span>
+                    <span>Análisis básico con algunos elementos de reflexión</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">6-9</span>
+                    <span>Análisis superficial con poca reflexión</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">0-5</span>
+                    <span>Sin análisis crítico o reflexión</span>
+                </div>
+            </div>
+
+            <div class="criterio-box">
+                <h3>Conclusiones</h3>
+                <div class="intervalo">
+                    <span class="rango">9-10</span>
+                    <span>Conclusiones claras, pertinentes y bien articuladas con el desarrollo</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">7-8</span>
+                    <span>Buenas conclusiones relacionadas con el contenido</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">5-6</span>
+                    <span>Conclusiones básicas y generales</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">3-4</span>
+                    <span>Conclusiones débiles o poco relacionadas</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">0-2</span>
+                    <span>Sin conclusiones o totalmente inadecuadas</span>
+                </div>
+            </div>
+
+            <div class="criterio-box">
+                <h3>Ortografía, gramática y formato</h3>
+                <div class="intervalo">
+                    <span class="rango">9-10</span>
+                    <span>Excelente redacción, sin errores, formato impecable</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">7-8</span>
+                    <span>Buena redacción, errores mínimos, formato adecuado</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">5-6</span>
+                    <span>Redacción aceptable, algunos errores, formato básico</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">3-4</span>
+                    <span>Redacción deficiente, múltiples errores</span>
+                </div>
+                <div class="intervalo">
+                    <span class="rango">0-2</span>
+                    <span>Redacción muy deficiente, errores graves</span>
+                </div>
+            </div>
+
+            <div class="resultado">
+                Puntuación obtenida: _________ / 70 puntos
+            </div>
+        </div>
+
+        <div id="escala1" class="content hidden">
+            <h2>ESCALA NUMÉRICA PARA EVALUAR PLANIFICACIÓN DIDÁCTICA</h2>
+            <p class="subtitle">Puntuación total: 100 puntos</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">N°</th>
+                        <th>Criterio de Evaluación</th>
+                        <th style="text-align: center; width: 12%;">Puntaje Máximo</th>
+                        <th style="text-align: center; width: 12%;">Puntaje Obtenido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">1</td>
+                        <td>Datos informativos completos y correctos</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">5</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">2</td>
+                        <td>Objetivos de aprendizaje claramente definidos y alineados al currículo</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">10</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">3</td>
+                        <td>Contenidos organizados y secuenciados coherentemente</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">10</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">4</td>
+                        <td>Estrategias metodológicas variadas y apropiadas</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">15</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">5</td>
+                        <td>Actividades de inicio motivadoras y pertinentes</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">10</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">6</td>
+                        <td>Actividades de desarrollo coherentes con los objetivos</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">15</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">7</td>
+                        <td>Actividades de cierre para consolidar aprendizajes</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">10</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">8</td>
+                        <td>Recursos didácticos apropiados y especificados</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">10</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">9</td>
+                        <td>Técnicas e instrumentos de evaluación definidos</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">10</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">10</td>
+                        <td>Presentación, formato y organización del documento</td>
+                        <td style="text-align: center; font-weight: bold; color: #4f46e5;">5</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr style="background: #dbeafe; font-weight: bold;">
+                        <td colspan="2" style="text-align: right; color: #1e1b4b;">TOTAL</td>
+                        <td style="text-align: center; color: #1e1b4b;">100</td>
+                        <td style="text-align: center;">_____</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="resultado">
+                <p style="margin-bottom: 10px;"><strong>Escala de Calificación:</strong></p>
+                <p>90-100: Excelente | 80-89: Muy Bueno | 70-79: Bueno | 60-69: Regular | 0-59: Insuficiente</p>
+            </div>
+        </div>
+
+        <div id="escala2" class="content hidden">
+            <h2>ESCALA VALORATIVA PARA EVALUAR TRABAJO EN GRUPO</h2>
+            <p class="subtitle">Nombre del grupo: __________________ Fecha: __________</p>
+            
+            <table style="font-size: 0.9em;">
+                <thead>
+                    <tr>
+                        <th style="width: 18%;">Criterio</th>
+                        <th>Excelente (4)</th>
+                        <th>Bueno (3)</th>
+                        <th>Regular (2)</th>
+                        <th>Deficiente (1)</th>
+                        <th style="width: 8%;">Valoración</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: bold; background: #f9fafb;">Organización y distribución de roles</td>
+                        <td>Todos los miembros tienen roles claros y los desempeñan eficientemente</td>
+                        <td>La mayoría de miembros tienen roles definidos y los cumplen</td>
+                        <td>Algunos miembros tienen roles pero no todos los cumplen</td>
+                        <td>No hay distribución clara de roles o no se cumplen</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; background: #f9fafb;">Colaboración y trabajo en equipo</td>
+                        <td>Colaboración activa y constante entre todos los miembros</td>
+                        <td>Buena colaboración con participación de la mayoría</td>
+                        <td>Colaboración limitada, algunos miembros trabajan aislados</td>
+                        <td>Trabajo individual, sin colaboración efectiva</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; background: #f9fafb;">Calidad del contenido presentado</td>
+                        <td>Contenido completo, preciso, bien investigado y fundamentado</td>
+                        <td>Contenido adecuado con buena investigación y fundamentos</td>
+                        <td>Contenido básico con investigación superficial</td>
+                        <td>Contenido incompleto o sin fundamentación</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; background: #f9fafb;">Creatividad e innovación</td>
+                        <td>Trabajo altamente creativo con propuestas innovadoras</td>
+                        <td>Presenta elementos creativos e ideas interesantes</td>
+                        <td>Creatividad limitada, cumple con lo básico</td>
+                        <td>Sin elementos creativos, trabajo convencional</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; background: #f9fafb;">Cumplimiento de plazos y responsabilidad</td>
+                        <td>Entrega puntual con cumplimiento total de compromisos</td>
+                        <td>Entrega en plazo con cumplimiento adecuado</td>
+                        <td>Entrega con retrasos menores, cumplimiento parcial</td>
+                        <td>Entrega tardía o incumplimiento de compromisos</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; background: #f9fafb;">Presentación y formato del trabajo</td>
+                        <td>Presentación impecable, formato profesional y estético</td>
+                        <td>Buena presentación con formato apropiado</td>
+                        <td>Presentación básica con formato simple</td>
+                        <td>Presentación descuidada o formato inadecuado</td>
+                        <td style="text-align: center; background: #f9fafb;">_____</td>
+                    </tr>
+                    <tr style="background: #dbeafe; font-weight: bold;">
+                        <td colspan="5" style="text-align: right; color: #1e1b4b;">VALORACIÓN TOTAL (máximo 24 puntos)</td>
+                        <td style="text-align: center;">_____</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="resultado">
+                <p style="margin-bottom: 10px;"><strong>Escala de Valoración:</strong></p>
+                <p>20-24 puntos: Excelente | 15-19 puntos: Bueno | 10-14 puntos: Regular | 6-9 puntos: Deficiente</p>
+            </div>
+        </div>
+
+        <div id="escala3" class="content hidden">
+            <h2>ESCALA DE LIKERT PARA EVALUAR UNA EXPOSICIÓN</h2>
+            <p class="subtitle">Nombre del expositor: __________________ Tema: __________________ Fecha: __________</p>
+            
+            <div style="background: #dbeafe; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                <p style="font-weight: 600; margin-bottom: 15px; color: #1e1b4b;">Instrucciones: Marque con una X la opción que mejor refleje su opinión sobre cada aspecto</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; font-size: 0.9em; text-align: center;">
+                    <div><strong>TD</strong> = Totalmente en Desacuerdo</div>
+                    <div><strong>ED</strong> = En Desacuerdo</div>
+                    <div><strong>N</strong> = Neutral</div>
+                    <div><strong>DA</strong> = De Acuerdo</div>
+                    <div><strong>TA</strong> = Totalmente de Acuerdo</div>
+                </div>
+            </div>
+
+            <table style="font-size: 0.85em;">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">N°</th>
+                        <th>Afirmación</th>
+                        <th style="width: 7%; text-align: center; background: #fee2e2;">TD<br/>(1)</th>
+                        <th style="width: 7%; text-align: center; background: #fed7aa;">ED<br/>(2)</th>
+                        <th style="width: 7%; text-align: center; background: #fef3c7;">N<br/>(3)</th>
+                        <th style="width: 7%; text-align: center; background: #dbeafe;">DA<br/>(4)</th>
+                        <th style="width: 7%; text-align: center; background: #d1fae5;">TA<br/>(5)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">1</td>
+                        <td>El expositor demostró dominio del tema presentado</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">2</td>
+                        <td>La exposición estuvo bien estructurada (inicio, desarrollo, cierre)</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">3</td>
+                        <td>Utilizó recursos visuales apropiados y de calidad</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">4</td>
+                        <td>Mantuvo contacto visual con la audiencia</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">5</td>
+                        <td>El volumen de voz fue adecuado y claro</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">6</td>
+                        <td>Utilizó un lenguaje apropiado y comprensible</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">7</td>
+                        <td>Gestionó el tiempo de manera efectiva</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">8</td>
+                        <td>Respondió preguntas con seguridad y claridad</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">9</td>
+                        <td>Fomentó la participación de la audiencia</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">10</td>
+                        <td>Los contenidos fueron relevantes y actualizados</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">11</td>
+                        <td>Utilizó ejemplos claros para explicar conceptos</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">12</td>
+                        <td>La presentación fue dinámica y mantuvo el interés</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">13</td>
+                        <td>Demostró preparación previa de la exposición</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">14</td>
+                        <td>Las conclusiones fueron claras y pertinentes</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">15</td>
+                        <td>En general, la exposición cumplió con los objetivos</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                        <td style="text-align: center;">☐</td>
+                    </tr>
+                    <tr style="background: #dbeafe; font-weight: bold;">
+                        <td colspan="2" style="text-align: right; color: #1e1b4b;">PUNTUACIÓN TOTAL (máximo 75 puntos)</td>
+                        <td colspan="5" style="text-align: center;">_________</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="resultado">
+                <p style="margin-bottom: 10px;"><strong>Interpretación de Resultados:</strong></p>
+                <p>63-75 puntos: Exposición Excelente | 52-62 puntos: Exposición Muy Buena | 41-51 puntos: Exposición Buena | 30-40 puntos: Exposición Regular | 15-29 puntos: Exposición Deficiente</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarEscalas() {
+            document.getElementById('portada').classList.add('hidden');
+            document.getElementById('navegacion').classList.remove('hidden');
+            document.getElementById('escala0').classList.remove('hidden');
+        }
+
+        function volverPortada() {
+            document.getElementById('portada').classList.remove('hidden');
+            document.getElementById('navegacion').classList.add('hidden');
+            for(let i = 0; i < 4; i++) {
+                document.getElementById('escala' + i).classList.add('hidden');
+            }
+        }
+
+        function cambiarTab(index) {
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach((tab, i) => {
+                if(i === index) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            for(let i = 0; i < 4; i++) {
+                document.getElementById('escala' + i).classList.add('hidden');
+            }
+            document.getElementById('escala' + index).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
